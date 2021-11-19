@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <fieldset class="table-search-fieldset">
+            <legend>搜索信息</legend>
+            <div style="margin: 10px 10px 10px 10px">
+                <form class="layui-form layui-form-pane" action="">
+                    <div class="layui-form-item">
+                        <div class="layui-inline">
+                            <label class="layui-form-label">学号</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="studentId" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <label class="layui-form-label">姓名</label>
+                            <div class="layui-input-inline">
+                                <input type="text" name="name" autocomplete="off" class="layui-input">
+                            </div>
+                        </div>
+                        <div class="layui-inline">
+                            <button type="submit" class="layui-btn layui-btn-primary"  lay-submit lay-filter="data-search-btn"><i class="layui-icon"></i> 搜 索</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </fieldset>
+
+        <script type="text/html" id="toolbarDemo">
+            <div class="layui-btn-container">
+                <button class="layui-btn layui-btn-normal layui-btn-sm data-add-btn" lay-event="add"> 添加 </button>
+                <button class="layui-btn layui-btn-sm layui-btn-danger data-delete-btn" lay-event="delete"> 删除 </button>
+            </div>
+        </script>
+
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+
+        <script type="text/html" id="currentTableBar">
+            <a class="layui-btn layui-btn-normal layui-btn-xs data-count-edit" lay-event="edit">编辑</a>
+            <a class="layui-btn layui-btn-xs layui-btn-danger data-count-delete" lay-event="delete">删除</a>
+        </script>
+
+    </div>
+</div>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/student/page',
+            loading: true,   // 显示加载进度条
+            autoSort: false,//禁用前端自动排序。
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {type: "checkbox", width: 50},
+                {field: 'id', width: 90, title: 'ID', sort: true},
+                {field: 'studentId', width: 120, title: '学号', sort: true},
+                {field: 'name', width: 90, title: '姓名'},
+                {field: 'gender', width: 90, title: '性别'},
+                {field: 'grade', width: 150, title: '班级', sort: true},
+                {field: 'phone', width: 120, title: '手机号码'},
+                {title: '操作', minWidth: 120, toolbar: '#currentTableBar', align: "center"}
+            ]],
+            limits: [10, 15, 20, 50],
+            limit: 10,
+            page: true,
+            skin: 'line',
+            parseData: function(res){ //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": '', //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            request: {
+                pageName: 'page', //当前页码，默认：page
+                limitName: 'rows' //每页显示的页数，默认：limit
+            }
+            /*,
+            response: {
+                statusName: 'code' //规定数据状态的字段名称，默认：code
+                ,statusCode: 0 //规定成功的状态码，默认：0
+                ,msgName: 'msg' //规定状态信息的字段名称，默认：msg
+                ,countName: 'total' //规定数据总数的字段名称，默认：count
+                ,dataName: 'data' //规定数据列表的字段名称，默认：data
+            }
+             */
+        });
+
+        // 监听搜索操作
+        form.on('submit(data-search-btn)', function (data) {
+            // var result = JSON.stringify(data.field);
+            // layer.alert(result, {
+            //     title: '最终的搜索信息'
+            // });
+
+            //执行搜索重载
+            table.reload('currentTableId', {
+                url: 'http://localhost:8181/student/page'
+                ,methods:"get"
+                // ,request: {
+                //     pageName: 'page' //页码的参数名称，默认：page
+                //     ,limitName: 'rows' //每页数据量的参数名，默认：limit
+                // }
+                ,where: {
+                    studentId: data.field.studentId
+                    ,name: data.field.name
+                }
+                ,page: {
+                    curr: 1
+                }
+            },'data');
+
+            return false;
+        });
+
+        // 触发排序事件
+        table.on('sort(currentTableFilter)',function (obj) { // 注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            table.reload('currentTableId', {
+                url: '/student/page',
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    sortBy: obj.field //排序字段
+                    , mode: obj.type //排序方式
+                }
+            });
+            // layer.msg('服务端排序。order by '+ obj.field + ' ' + obj.type);
+        });
+
+        /**
+         * toolbar监听事件
+         */
+        table.on('toolbar(currentTableFilter)', function (obj) {
+            if (obj.event === 'add') {  // 监听添加操作
+                var index = layer.open({
+                    title: '添加用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['40%', '60%'],
+                    content: '../page/table/student/add.html',
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+            } else if (obj.event === 'delete') {  // 监听删除操作
+                layer.confirm('确定要删除多行数据吗？', function (index) {
+                    // 获取选中的id
+                    var checkStatus = table.checkStatus('currentTableId')
+                        , data = checkStatus.data
+                        ,arr_id = new Array();
+                    for(var i = 0;i<data.length;i++){
+                        arr_id.push(data[i].id);
+                    }
+                    // 调用删除方法
+                    deleteIds(arr_id);
+                    layer.close(index);
+                });
+            }
+        });
+
+        //监听表格复选框选择
+        table.on('checkbox(currentTableFilter)', function (obj) {
+            console.log(obj)
+        });
+
+        table.on('tool(currentTableFilter)', function (obj) {
+            var data = obj.data;
+            //alert(data.id);
+            if (obj.event === 'edit') {
+
+                var index = layer.open({
+                    title: '编辑用户',
+                    type: 2,
+                    shade: 0.2,
+                    maxmin:true,
+                    shadeClose: true,
+                    area: ['40%', '60%'],
+                    content: '../page/table/student/edit.html?id='+data.id,
+                });
+                $(window).on("resize", function () {
+                    layer.full(index);
+                });
+                return false;
+            } else if (obj.event === 'delete') {
+                layer.confirm('确定删除此行吗？', function (index) {
+                    // 调用删除方法
+                    deleteIds(data.id);
+                    layer.close(index);
+                });
+            }
+        });
+
+        // 抽取的删除方法
+        function deleteIds(obj) {
+            $.ajax({
+                url:"http://localhost:8181/student/deleteIds",
+                contentType: "application/json; charset=utf-8",
+                type:"get",
+                dataType:'json',
+                data:"ids="+obj,
+                success:function(data){
+                    //刷新当前页面
+                    window.location.reload();
+                    layer.msg("删除成功");
+                },
+                error:function(or){
+                    // 关闭弹出层
+                    //layer.close(index);
+                    alert('删除失败，服务器异常')
+                }
+            });
+        }
+    });
+
+</script>
+
+</body>
+</html>

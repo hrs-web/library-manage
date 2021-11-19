@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../../../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../../../css/public.css" media="all">
+    <style>
+        body {
+            background-color: #ffffff;
+        }
+    </style>
+</head>
+<body>
+<div class="layui-form layuimini-form">
+    <input id="id" name="id" type="hidden">
+    <div class="layui-form-item">
+        <label class="layui-form-label required">书籍编号</label>
+        <div class="layui-input-block">
+            <input id="studentId" type="text" name="bookId" lay-verify="required" lay-reqtext="书籍编号不能为空" placeholder="请输入学号" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">书籍名称</label>
+        <div class="layui-input-block">
+            <input id="name" type="text" name="bookName" lay-verify="required" lay-reqtext="书籍名称不能为空" placeholder="请输入姓名" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label required">作者</label>
+        <div class="layui-input-block">
+            <input type="text" name="author" lay-verify="required" lay-reqtext="作者不能为空" placeholder="请输入作者" value="" class="layui-input">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">分类名称</label>
+        <div class="layui-input-block">
+            <select name="sortId" lay-verify="required" lay-search="" >
+                <option value="">直接选择或搜索选择</option>
+                <option value="1">layer</option>
+                <option value="2">form</option>
+                <option value="3">layim</option>
+                <option value="4">element</option>
+                <option value="5">laytpl</option>
+                <option value="6">upload</option>
+                <option value="7">laydate</option>
+                <option value="8">laypage</option>
+                <option value="9">flow</option>
+                <option value="10">util</option>
+                <option value="11">code</option>
+            </select>
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">描述</label>
+        <div class="layui-input-block">
+            <input id="phone" type="phone" name="descrip" placeholder="请描述" value="" class="layui-input">
+        </div>
+    </div>
+
+    <div class="layui-form-item">
+        <div class="layui-input-block">
+            <button class="layui-btn layui-btn-normal" lay-submit lay-filter="saveBtn">确认保存</button>
+        </div>
+    </div>
+</div>
+<script src="../../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+
+    function getQueryString(name) {
+        var reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
+        var r = window.location.search.substr(1).match(reg);
+        if(r != null) {
+            return unescape(r[2]);
+        }
+        return null;
+    }
+    var id = getQueryString("id");
+
+    layui.use(['form'], function () {
+        var form = layui.form,
+            layer = layui.layer,
+            $ = layui.$;
+
+        $('#id').val(id);  // 设置id值
+        // 异步请求获取学生实体
+        $.ajax({
+            url: ""+id,
+            contentType: "application/json; charset=utf-8",
+            type: "get",
+            dataType: 'json',
+            //data: params,
+            success: function (data) {
+                $('#studentId').val(data.studentId);
+                $('#name').val(data.name);
+                if (data.gender=="女") {
+                    $("input[type='radio'][value='女']").attr("checked",true);
+                }
+                $('#grade').val(data.grade);
+                $('#phone').val(data.phone);
+                $('#id').val(data.id);
+                form.render();
+            },
+            error: function (or) {
+                // 关闭弹出层
+                //alert('服务器异常')
+            }
+        });
+
+        //监听提交
+        form.on('submit(saveBtn)', function (data) {
+            var params = JSON.stringify(data.field);
+            $.ajax({
+                url:"",
+                contentType: "application/json; charset=utf-8",
+                type:"post",
+                dataType:'json',
+                data:params,
+                success:function(data){
+                    //刷新父页面
+                    window.parent.location.reload();
+                    var iframeIndex = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(iframeIndex);
+                    layer.msg("修改成功");
+                },
+                error:function(or){
+                    // 关闭弹出层
+                    //layer.close(index);
+                    window.parent.location.reload();
+                    var iframeIndex = parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(iframeIndex);
+                    alert('修改失败')
+                }
+            });
+            return false;
+        });
+    });
+</script>
+</body>
+</html>

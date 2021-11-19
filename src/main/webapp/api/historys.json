@@ -1,0 +1,27 @@
+{
+  "code": 0,
+  "msg": "",
+  "count": 1000,
+  "data": [
+    {
+      "id": 10001,
+      "bookName": "java编程思想",
+      "stuName": "张三",
+      "borrowDate": "2020-12-01",
+      "returnDate": "2021-01-10",
+      "illegal": "正常",
+      "manName": "管理员",
+      "status": 1
+    },
+    {
+      "id": 10002,
+      "bookName": "中国历史",
+      "stuName": "李四",
+      "borrowDate": "2020-12-01",
+      "returnDate": "2021-01-10",
+      "illegal": "违规超时",
+      "manName": "管理员",
+      "status": 2
+    }
+  ]
+}

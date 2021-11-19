@@ -1,0 +1,12 @@
+server:
+  port: 8181
+
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/library?serverTimezone=UTC
+    username: root
+    password: '0826'
+
+mybatis:
+  type-aliases-package: com.hrsweb.pojo
+

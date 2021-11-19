@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <table class="layui-hide" id="currentTableId" lay-filter="currentTableFilter"></table>
+    </div>
+</div>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script>
+    layui.use(['form', 'table'], function () {
+        var $ = layui.jquery,
+            form = layui.form,
+            table = layui.table;
+
+        table.render({
+            elem: '#currentTableId',
+            url: '/history/page',
+            loading: true,   // 显示加载进度条
+            autoSort: false,//禁用前端自动排序。
+            toolbar: '#toolbarDemo',
+            defaultToolbar: ['filter', 'exports', 'print', {
+                title: '提示',
+                layEvent: 'LAYTABLE_TIPS',
+                icon: 'layui-icon-tips'
+            }],
+            cols: [[
+                {field: 'id', width: 90, title: 'ID', sort: true},
+                {field: 'studentName', width: 100, title: '借阅人'},
+                {field: 'bookName', width: 140, title: '书籍名称'},
+                {field: 'borrowDate', width: 140, title: '借书时间', sort: true},
+                {field: 'endDate', width: 140, title: '限制时间'},
+                {field: 'returnDate', width: 140, title: '归还时间'},
+                {field: 'illegal', width: 200, title: '违规描述'},
+                {field: 'mangerName', width: 200, title: '处理人'},
+                {field: 'statusName', minWidth: 120, title: '书籍状态', align: "center"}
+            ]],
+            limits: [10, 15, 20, 25, 50, 100],
+            limit: 15,
+            page: true,
+            skin: 'line',
+            parseData: function(res) { //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": '', //解析提示文本
+                    "count": res.total, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            request: {
+                pageName: 'page', //当前页码，默认：page
+                limitName: 'rows' //每页显示的页数，默认：limit
+            }
+        });
+
+        // 触发排序事件
+        table.on('sort(currentTableFilter)',function (obj) { // 注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
+            layer.msg('服务端排序。order by '+ obj.field + ' ' + obj.type);
+            table.reload('currentTableId', {
+                url: '/history/page',
+                initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
+                , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
+                    sortBy: obj.field //排序字段
+                    , mode: obj.type //排序方式
+                }
+            });
+            // layer.msg('服务端排序。order by '+ obj.field + ' ' + obj.type);
+        });
+    });
+</script>
+
+</body>
+</html>>

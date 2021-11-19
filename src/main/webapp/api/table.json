@@ -1,0 +1,87 @@
+{
+  "code": 200,
+  "msg": "",
+  "count": 1000,
+  "data": [
+    {
+      "id": 10001,
+      "stuId": "20210215",
+      "username": "user-1",
+      "gender": "女",
+      "grade": "一班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10002,
+      "stuId": "20210215",
+      "username": "user-2",
+      "gender": "女",
+      "grade": "二班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10003,
+      "stuId": "20210215",
+      "username": "user-3",
+      "gender": "女",
+      "grade": "三班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10004,
+      "stuId": "20210215",
+      "username": "user-4",
+      "gender": "女",
+      "grade": "四班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10005,
+      "stuId": "20210215",
+      "username": "user-5",
+      "gender": "女",
+      "grade": "五班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10006,
+      "stuId": "20210215",
+      "username": "user-6",
+      "gender": "女",
+      "grade": "六班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10007,
+      "stuId": "20210215",
+      "username": "user-7",
+      "gender": "女",
+      "grade": "七班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10008,
+      "stuId": "20210215",
+      "username": "user-8",
+      "gender": "女",
+      "grade": "八班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10009,
+      "stuId": "20210215",
+      "username": "user-9",
+      "gender": "女",
+      "grade": "九班",
+      "phone": "13078293119"
+    },
+    {
+      "id": 10010,
+      "stuId": "20210215",
+      "username": "user-10",
+      "gender": "女",
+      "grade": "十班",
+      "phone": "13078293119"
+    }
+  ]
+}

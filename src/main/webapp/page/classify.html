@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>menu</title>
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <style>
+        .layui-btn:not(.layui-btn-lg ):not(.layui-btn-sm):not(.layui-btn-xs) {
+            height: 34px;
+            line-height: 34px;
+            padding: 0 8px;
+        }
+    </style>
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+        <div>
+            <div class="layui-btn-group">
+                <button class="layui-btn" id="btn-expand">全部展开</button>
+                <button class="layui-btn layui-btn-normal" id="btn-fold">全部折叠</button>
+            </div>
+            <table id="munu-table" class="layui-table" lay-filter="munu-table"></table>
+        </div>
+    </div>
+</div>
+<!-- 操作列 -->
+<script type="text/html" id="auth-state">
+    <a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">添加</a>
+    <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+</script>
+
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use(['table', 'treetable'], function () {
+        var $ = layui.jquery;
+        var table = layui.table;
+        var treetable = layui.treetable;
+
+        // 渲染表格
+        layer.load(2);
+        treetable.render({
+            treeColIndex: 1,
+            treeSpid: -1,
+            treeIdName: 'id',
+            treePidName: 'pid',
+            elem: '#munu-table',
+            url: 'http://localhost:8181/classify/page',
+            page: false,
+            cols: [[
+                {type: 'numbers'},
+                {field: 'sortName', minWidth: 200, title: '图书类型'},
+                {field: 'description', title: '描述'},
+                {templet: '#auth-state', width: 120, align: 'center', title: '操作'}
+            ]],
+            parseData: function(res) { //res 即为原始返回的数据
+                return {
+                    "code": 0, //解析接口状态
+                    "msg": '', //解析提示文本
+                    "count": res.length, //解析数据长度
+                    "data": res.data //解析数据列表
+                };
+            },
+            done: function () {
+                layer.closeAll('loading');
+            }
+        });
+
+        $('#btn-expand').click(function () {
+            treetable.expandAll('#munu-table');
+        });
+
+        $('#btn-fold').click(function () {
+            treetable.foldAll('#munu-table');
+        });
+
+        //监听工具条
+        table.on('tool(munu-table)', function (obj) {
+            var data = obj.data;
+            var layEvent = obj.event;
+
+            // 删除节点
+            if (layEvent === 'del') {
+                // 判断节点是否为子节点
+                if (data.isParent){
+                    layer.msg('此节点下有子节点，不能直接删除');
+                    return false;
+                }
+                layer.confirm('确定删除此分类目录吗？', function (index) {
+                    operation('id='+data.id,'/delete');
+                    layer.close(index);
+                });
+            } else if (layEvent === 'edit') {
+                layer.msg('修改' + data.id);
+            }
+        });
+
+        function operation(data,param) {
+            $.ajax({
+                url:"/classify"+param,
+                contentType: "application/json; charset=utf-8",
+                type:'get',
+                dataType:'json',
+                data:data,
+                success:function(obj){
+                    layer.msg(obj);
+                    //刷新当前页面
+                    window.location.reload();
+
+                },
+                error:function(or){
+                    // 关闭弹出层
+                    //layer.close(index);
+                    alert('操作失败，服务器异常')
+                }
+            });
+        }
+    });
+</script>
+</body>
+</html>
