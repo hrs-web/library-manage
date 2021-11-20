@@ -75,4 +75,10 @@ public class StudentServiceImpl implements StudentService {
             this.studentMapper.deleteByPrimaryKey(id);
         });
     }
+
+    @Override
+    public List<Student> findByIdName() {
+        Example example = Example.builder(Student.class).select("id","studentId").build();
+        return this.studentMapper.selectByExample(example);
+    }
 }

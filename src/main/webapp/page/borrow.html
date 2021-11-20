@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>分步表单</title>
+    <meta name="renderer" content="webkit">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <link rel="stylesheet" href="../lib/layui-v2.6.3/css/layui.css" media="all">
+    <link rel="stylesheet" href="../css/public.css" media="all">
+    <link rel="stylesheet" href="../js/lay-module/step-lay/step.css" media="all">
+</head>
+<body>
+<div class="layuimini-container">
+    <div class="layuimini-main">
+
+        <div class="layui-fluid">
+            <div class="layui-card">
+                <div class="layui-card-body" style="padding-top: 40px;">
+                    <div class="layui-carousel" id="stepForm" lay-filter="stepForm" style="margin: 0 auto;">
+                        <div carousel-item>
+                            <div>
+                                <form class="layui-form layuimini-form" style="margin: 0 auto;max-width: 460px;padding-top: 40px;">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">学生学号</label>
+                                        <div class="layui-input-inline">
+                                            <select id="sid1" name="sid" lay-verify="required" lay-search="" lay-reqtext="学生学号不能为空">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">书籍编号</label>
+                                        <div class="layui-input-inline">
+                                            <select id="bid1" name="bid" lay-verify="required" lay-search="" lay-reqtext="书籍编号不能为空">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">借书时间:</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="borrowDate" id="borrowDate1" lay-verify="date" placeholder="Year-Mouth-Date" autocomplete="off" class="layui-input" lay-reqtext="借书时间不能为空">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">限制时间:</label>
+                                        <div class="layui-input-inline">
+                                            <input type="text" name="endDate" id="endDate1" lay-verify="date" placeholder="Year-Mouth-Date" autocomplete="off" class="layui-input" lay-reqtext="限制时间不能为空">
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label required">处理人</label>
+                                        <div class="layui-input-inline">
+                                            <select id="mid1" name="mid" lay-verify="required" lay-search="" lay-reqtext="学生学号不能为空">
+
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">备注说明:</label>
+                                        <div class="layui-input-block">
+                                            <textarea name="illegal" id="illegal1" placeholder="借阅备注" value="" class="layui-textarea"></textarea>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button class="layui-btn" lay-submit lay-filter="formStep" >
+                                                &emsp;下一步&emsp;
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+
+
+
+                            <div>
+                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 35px;">
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">学生学号:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="sid" name="sid"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">学生姓名:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="studentName" name="studentName"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">书籍编号:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="bid" name="bid"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">书籍名称:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="bookName" name="bookName"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">借书时间:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux">
+                                                <span style="font-size: 18px;color: #333;"id="borrowDate" name="borrowDate" ></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">限制时间:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="endDate" name="endDate"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">处理人:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="mid" name="mid"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <label class="layui-form-label">备注说明:</label>
+                                        <div class="layui-input-block">
+                                            <div class="layui-form-mid layui-word-aux" id="illegal" name="illegal"></div>
+                                        </div>
+                                    </div>
+                                    <div class="layui-form-item">
+                                        <div class="layui-input-block">
+                                            <button type="button" class="layui-btn layui-btn-primary pre">上一步</button>
+                                            <button class="layui-btn" lay-submit lay-filter="formStep2">
+                                                &emsp;确认借阅&emsp;
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                            <div>
+                                <div style="text-align: center;margin-top: 90px;">
+                                    <i class="layui-icon layui-circle"
+                                       style="color: white;font-size:30px;font-weight:bold;background: #52C41A;padding: 20px;line-height: 80px;">&#xe605;</i>
+                                    <div style="font-size: 24px;color: #333;font-weight: 500;margin-top: 30px;">
+                                        借书成功
+                                    </div>
+                                    <div style="font-size: 14px;color: #666;margin-top: 20px;">欢迎再次借阅</div>
+                                </div>
+                                <div style="text-align: center;margin-top: 50px;">
+                                    <button class="layui-btn again">继续借书</button>
+                                    <button class="layui-btn layui-btn-primary">查看借阅</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <br>
+                    <div style="color: #666;margin-top: 30px;margin-bottom: 40px;padding-left: 30px;">
+                        <h3>说明</h3><br>
+                        <p>请在规定时间内还书。</p><br>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<script src="../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
+<script>
+    layui.use([ 'form', 'step', 'laydate'], function () {
+        var sid,bid,mid,borrowDate,endDate,illegal;
+        var $ = layui.$,
+            form = layui.form,
+            step = layui.step,
+            laydate = layui.laydate;
+        // 异步加载学生学号
+        $.ajax({
+            url: "/student/findByIdName",
+            contentType: "application/json; charset=utf-8",
+            type: 'get',
+            dataType: 'json',
+            //data: params,
+            success: function (obj) {
+                var lis = '<option value="">直接选择或搜索选择</option>';
+                for (var i = 0;i < obj.data.length;i++){
+                    lis += '<option value="'+obj.data[i].id+'">'+obj.data[i].studentId+'</option>';
+                }
+                $("#sid1").html(lis);
+                form.render();
+            },
+            error: function (or) {
+                // 关闭弹出层
+                alert('服务器异常')
+            }
+        });
+
+        // 异步加载书籍
+        $.ajax({
+            url: "/book/findByIdName",
+            contentType: "application/json; charset=utf-8",
+            type: 'get',
+            dataType: 'json',
+            //data: params,
+            success: function (obj) {
+                var lis = '<option value="">直接选择或搜索选择</option>';
+                for (var i = 0;i < obj.data.length;i++){
+                    lis += '<option value="'+obj.data[i].id+'">'+obj.data[i].bookId+'</option>';
+                }
+                $("#bid1").html(lis);
+                form.render();
+            },
+            error: function (or) {
+                // 关闭弹出层
+                alert('服务器异常')
+            }
+        });
+
+        // 异步加载处理人
+        $.ajax({
+            url: "/manger/findByIdName",
+            contentType: "application/json; charset=utf-8",
+            type: 'get',
+            dataType: 'json',
+            //data: params,
+            success: function (obj) {
+                var lis = '<option value="">直接选择或搜索选择</option>';
+                for (var i = 0;i < obj.data.length;i++){
+                    lis += '<option value="'+obj.data[i].id+'">'+obj.data[i].mangerName+'</option>';
+                }
+                $("#mid1").html(lis);
+                form.render();
+            },
+            error: function (or) {
+                // 关闭弹出层
+                alert('服务器异常')
+            }
+        });
+
+        //日期
+        laydate.render({
+            elem: '#borrowDate1'
+            ,done:function (value) {
+                borrowDate=value;
+                $("span#borrowDate").html(value);
+            }
+        });
+        laydate.render({
+            elem: '#endDate1'
+            ,done:function (value) {
+                endDate=value;
+                $("div#endDate").html(value);
+            }
+        });
+
+
+
+
+        step.render({
+            elem: '#stepForm',
+            filter: 'stepForm',
+            width: '100%', //设置容器宽度
+            stepWidth: '750px',
+            height: '500px',
+            stepItems: [{
+                title: '填写借阅信息'
+            }, {
+                title: '确认详情'
+            }, {
+                title: '完成'
+            }]
+        });
+
+
+
+        form.on('submit(formStep)', function (data) {
+            sid = data.field.sid;
+            bid = data.field.bid;
+            mid = data.field.mid;
+            var stuId = $("#sid1").find("option:selected").text();
+            $("#sid").html(stuId);
+            var  bookId = $("#bid1").find("option:selected").text();
+            $("#bid").html(bookId);
+            var  mangerId = $("#mid1").find("option:selected").text();
+            $("#mid").html(mangerId);
+            illegal = $("#illegal1").val();
+            $("#illegal").html(illegal);
+            var params = 'sid='+data.field.sid+'&bid='+data.field.bid;
+            //alert(params);
+            // 获取详情
+            $.ajax({
+                url: "/borrow/findBook",
+                contentType: "application/json; charset=utf-8",
+                type: 'get',
+                dataType: 'json',
+                data: params,
+                success: function (obj) {
+                    $("#studentName").html(obj.studentName);
+                    $("#bookName").html(obj.bookName);
+                    form.render();
+                },
+                error: function (or) {
+                    // 关闭弹出层
+                    alert('服务器异常')
+                }
+            });
+            step.next('#stepForm');
+            return false;
+        });
+
+        form.on('submit(formStep2)', function (data) {
+            var obj = {
+                sid:sid,
+                bid:bid,
+                mid:mid,
+                borrowDate:borrowDate,
+                endDate:endDate,
+                illegal:illegal
+            };
+            var res = JSON.stringify(obj);
+            console.log(res);
+            $.ajax({
+                url: "/borrow/insert",
+                contentType: "application/json; charset=utf-8",
+                type: 'post',
+                dataType: 'json',
+                data: res,
+                success: function (obj) {
+                    layer.msg(obj.msg);
+                    step.next('#stepForm');
+                },
+                error: function (or) {
+                    // 关闭弹出层
+                    layer.msg("借阅失败，服务器异常");
+                    step.pre('#stepForm');
+                }
+            });
+
+            return false;
+        });
+
+
+
+
+        $('.pre').click(function () {
+            step.pre('#stepForm');
+        });
+
+        $('.next').click(function () {
+            step.next('#stepForm');
+        });
+
+        $('.again').click(function () {
+            location.href="borrow.html";
+        });
+
+
+    })
+
+
+</script>
+
+</body>
+</html>

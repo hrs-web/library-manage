@@ -17,7 +17,6 @@ import java.util.List;
 public class BookServiceImpl implements BookService {
     @Autowired
     private BookMapper bookMapper;
-    private Class<?> clazz;
 
     /**
      * 组合查询书籍
@@ -66,5 +65,11 @@ public class BookServiceImpl implements BookService {
         ids.forEach(id->{
             this.bookMapper.deleteByPrimaryKey(id);
         });
+    }
+
+    @Override
+    public List<Book> findByIdName() {
+        Example example = Example.builder(Book.class).select("id","bookId").build();
+        return this.bookMapper.selectByExample(example);
     }
 }

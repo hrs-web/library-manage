@@ -24,7 +24,7 @@
 
         table.render({
             elem: '#currentTableId',
-            url: '/history/page',
+            url: '/borrow/historyPage',
             loading: true,   // 显示加载进度条
             autoSort: false,//禁用前端自动排序。
             toolbar: '#toolbarDemo',
@@ -66,7 +66,7 @@
         table.on('sort(currentTableFilter)',function (obj) { // 注：sort 是工具条事件名，test 是 table 原始容器的属性 lay-filter="对应的值"
             layer.msg('服务端排序。order by '+ obj.field + ' ' + obj.type);
             table.reload('currentTableId', {
-                url: '/history/page',
+                url: '/borrow/historyPage',
                 initSort: obj //记录初始排序，如果不设的话，将无法标记表头的排序状态。
                 , where: { //请求参数（注意：这里面的参数可任意定义，并非下面固定的格式）
                     sortBy: obj.field //排序字段

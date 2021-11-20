@@ -118,7 +118,7 @@
 
             //执行搜索重载
             table.reload('currentTableId', {
-                url: 'http://localhost:8181/student/page'
+                url: '/student/page'
                 ,methods:"get"
                 // ,request: {
                 //     pageName: 'page' //页码的参数名称，默认：page
@@ -217,7 +217,7 @@
         // 抽取的删除方法
         function deleteIds(obj) {
             $.ajax({
-                url:"http://localhost:8181/student/deleteIds",
+                url:"/student/deleteIds",
                 contentType: "application/json; charset=utf-8",
                 type:"get",
                 dataType:'json',

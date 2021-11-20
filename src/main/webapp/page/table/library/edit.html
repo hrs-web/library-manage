@@ -18,34 +18,39 @@
 <div class="layui-form layuimini-form">
     <input id="id" name="id" type="hidden">
     <div class="layui-form-item">
-        <label class="layui-form-label required">学号</label>
+        <label class="layui-form-label required">学生编号</label>
         <div class="layui-input-block">
-            <input id="studentId" type="text" name="studentId" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" value="" class="layui-input">
+            <input id="studentId" type="text" name="studentId" lay-verify="required" lay-reqtext="书籍编号不能为空" placeholder="请输入学号" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">姓名</label>
+        <label class="layui-form-label required">学生姓名</label>
         <div class="layui-input-block">
-            <input id="name" type="text" name="name" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" value="" class="layui-input">
+            <input id="name" type="text" name="name" lay-verify="required" lay-reqtext="书籍名称不能为空" placeholder="请输入姓名" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label required">性别</label>
+        <label class="layui-form-label required">联系电话</label>
         <div class="layui-input-block">
-            <input type="radio" name="gender" value="男" title="男" checked="">
-            <input type="radio" name="gender" value="女" title="女">
+            <input type="text" name="phone" lay-verify="required" lay-reqtext="作者不能为空" placeholder="请输入作者" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">班级</label>
+        <label class="layui-form-label">书籍名称</label>
         <div class="layui-input-block">
-            <input id="grade" type="text" name="grade" placeholder="请输入班级" value="" class="layui-input">
+            <input type="text" name="bookName" lay-verify="required" lay-reqtext="作者不能为空" placeholder="请输入作者" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
-        <label class="layui-form-label">手机</label>
+        <label class="layui-form-label">借书时间</label>
         <div class="layui-input-block">
-            <input id="phone" type="phone" name="phone" placeholder="请输入手机" value="" class="layui-input">
+            <input type="text" name="borrowDate" id="borrowDate" lay-verify="date" placeholder="Year-Mouth-Date" autocomplete="off" class="layui-input" lay-reqtext="借书时间不能为空">
+        </div>
+    </div>
+    <div class="layui-form-item">
+        <label class="layui-form-label">限制时间</label>
+        <div class="layui-input-block">
+            <input type="text" name="endDate" id="endDate" lay-verify="date" placeholder="Year-Mouth-Date" autocomplete="off" class="layui-input" lay-reqtext="限制时间不能为空">
         </div>
     </div>
 
@@ -56,6 +61,7 @@
     </div>
 </div>
 <script src="../../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../../../js/lay-config.js?v=1.0.4" charset="utf-8"></script>
 <script>
 
     function getQueryString(name) {
@@ -68,6 +74,24 @@
     }
     var id = getQueryString("id");
 
+    layui.use([ 'form','laydate'], function () {
+        var $ = layui.$,
+            form = layui.form,
+            step = layui.step,
+            laydate = layui.laydate;
+
+
+        //日期
+        laydate.render({
+            elem: '#borrowDate'
+        });
+        laydate.render({
+            elem: '#endDate'
+        });
+
+
+    })
+
     layui.use(['form'], function () {
         var form = layui.form,
             layer = layui.layer,
@@ -76,7 +100,7 @@
         $('#id').val(id);  // 设置id值
         // 异步请求获取学生实体
         $.ajax({
-            url: "/student/"+id,
+            url: "",
             contentType: "application/json; charset=utf-8",
             type: "get",
             dataType: 'json',
@@ -94,7 +118,7 @@
             },
             error: function (or) {
                 // 关闭弹出层
-                alert('服务器异常')
+                //alert('服务器异常')
             }
         });
 
@@ -102,7 +126,7 @@
         form.on('submit(saveBtn)', function (data) {
             var params = JSON.stringify(data.field);
             $.ajax({
-                url:"/student/update",
+                url:"",
                 contentType: "application/json; charset=utf-8",
                 type:"post",
                 dataType:'json',

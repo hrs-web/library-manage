@@ -9,7 +9,9 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("student")
@@ -90,6 +92,18 @@ public class StudentController {
     public PageResult deleteByIds(@RequestParam(value = "ids") List<Long> ids){
         this.studentService.deleteByIds(ids);
         return new PageResult();
+    }
+
+    /**
+     * 查询
+     * @return
+     */
+    @GetMapping("findByIdName")
+    public Map<String,List<Student>> findByIdName(){
+        List<Student> students = this.studentService.findByIdName();
+        HashMap<String,List<Student>> map = new HashMap<>();
+        map.put("data",students);
+        return map;
     }
 
 }

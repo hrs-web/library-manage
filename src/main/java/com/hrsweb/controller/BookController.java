@@ -6,7 +6,9 @@ import com.hrsweb.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("book")
@@ -56,6 +58,18 @@ public class BookController {
     public PageResult deleteBooks(@RequestParam(value = "ids") List<Long> ids){
         this.bookService.deleteBooks(ids);
         return new PageResult("删除成功");
+    }
+
+    /**
+     * 查找id，name
+     * @return
+     */
+    @GetMapping("findByIdName")
+    public Map<String,List<Book>> findByIdName(){
+        List<Book> books = this.bookService.findByIdName();
+        HashMap<String, List<Book>> map = new HashMap<>();
+        map.put("data",books);
+        return map;
     }
 
 }

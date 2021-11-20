@@ -19,13 +19,13 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">学号</label>
         <div class="layui-input-block">
-            <input type="text" name="studentId" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" value="" class="layui-input">
+            <input type="text" name="stuId" lay-verify="required" lay-reqtext="学号不能为空" placeholder="请输入学号" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">姓名</label>
         <div class="layui-input-block">
-            <input type="text" name="name" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" value="" class="layui-input">
+            <input type="text" name="username" lay-verify="required" lay-reqtext="姓名不能为空" placeholder="请输入姓名" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -38,7 +38,7 @@
     <div class="layui-form-item">
         <label class="layui-form-label">班级</label>
         <div class="layui-input-block">
-            <input type="text" name="grade" placeholder="请输入班级" value="" class="layui-input">
+            <input type="text" name="class" placeholder="请输入班级" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
@@ -54,7 +54,7 @@
         </div>
     </div>
 </div>
-<script src="../../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
+<script src="../../lib/layui-v2.6.3/layui.js" charset="utf-8"></script>
 <script>
     layui.use(['form'], function () {
         var form = layui.form,
@@ -63,29 +63,17 @@
 
         //监听提交
         form.on('submit(saveBtn)', function (data) {
-            var params = JSON.stringify(data.field);
-            $.ajax({
-                url:"/student/add",
-                contentType: "application/json; charset=utf-8",
-                type:"post",
-                dataType:'json',
-                data:params,
-                success:function(data){  //注意：$.ajax访问必须要有返回值
-                    // 关闭弹出层
-                    window.parent.location.reload();
-                    var iframeIndex = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(iframeIndex);
-                    layer.msg('添加成功');
-                },
-                error:function(or){
-                    // 关闭弹出层
-                    window.parent.location.reload();
-                    var iframeIndex = parent.layer.getFrameIndex(window.name);
-                    parent.layer.close(iframeIndex);
-                    alert('添加失败');
-                }
-            }
-            );
+            var index = layer.alert(JSON.stringify(data.field), {
+                title: '最终的提交信息'
+            }, function () {
+
+                // 关闭弹出层
+                layer.close(index);
+
+                var iframeIndex = parent.layer.getFrameIndex(window.name);
+                parent.layer.close(iframeIndex);
+
+            });
 
             return false;
         });

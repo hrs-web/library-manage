@@ -3,11 +3,12 @@ package com.hrsweb.pojo;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
+import java.io.Serializable;
 import java.util.Date;
 
 // 借书记录表
 @Table(name = "borrow_books")
-public class BorrowBooks {
+public class BorrowBooks  implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -22,7 +23,10 @@ public class BorrowBooks {
     private Date returnDate;
     private String illegal;
     private Integer status;
+
     // 注释mybatis忽略字段
+    @Transient
+    private String studentId;
     @Transient
     private String studentName;
     @Transient
@@ -31,6 +35,24 @@ public class BorrowBooks {
     private String mangerName;
     @Transient
     private String statusName;
+    @Transient
+    private String phone;
+
+    public String getStudentId() {
+        return studentId;
+    }
+
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
 
     public Long getId() {
         return id;
@@ -133,6 +155,8 @@ public class BorrowBooks {
             this.statusName = "未还";
         }else if (this.getStatus()==1){
             this.statusName = "已还";
+        }else{
+            this.statusName = "待确认";
         }
         return statusName;
     }

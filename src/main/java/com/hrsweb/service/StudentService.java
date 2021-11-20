@@ -15,4 +15,6 @@ public interface StudentService {
     void updateStudent(Student student);
 
     void deleteByIds(List<Long> ids);
+
+    List<Student> findByIdName();
 }

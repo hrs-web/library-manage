@@ -7,6 +7,7 @@ public class PageResult<T> {
     private String msg;
     private Long total;
     private Long totalPage;
+    private T t;
     private List<T> data;
 
     public PageResult(){
@@ -14,6 +15,19 @@ public class PageResult<T> {
 
     public PageResult(String msg){
         this.msg = msg;
+    }
+
+    public T getT() {
+        return t;
+    }
+
+    public void setT(T t) {
+        this.t = t;
+    }
+
+    public PageResult(String msg, T t){
+        this.msg = msg;
+        this.t = t;
     }
 
     public PageResult(Long total,List<T> data){
