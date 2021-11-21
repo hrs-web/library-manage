@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface MangerService {
     List<Manger> findByIdName();
+
+    Manger login(String username, String password);
 }

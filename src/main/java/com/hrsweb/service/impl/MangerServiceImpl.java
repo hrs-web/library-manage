@@ -19,4 +19,9 @@ public class MangerServiceImpl implements MangerService {
         Example example = Example.builder(Manger.class).select("id","mangerName").build();
         return this.mangerMapper.selectByExample(example);
     }
+
+    @Override
+    public Manger login(String username, String password) {
+        return this.mangerMapper.login(username,password);
+    }
 }
