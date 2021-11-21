@@ -178,11 +178,12 @@
                     maxmin:true,
                     shadeClose: true,
                     area: ['40%', '70%'],
-                    content: '../page/table/book/edit.html',
+                    content: '../page/table/book/edit.html?id='+data.id
                 });
                 $(window).on("resize", function () {
                     layer.full(index);
                 });
+
                 return false;
             } else if (obj.event === 'delete') {
                 layer.confirm('确定删除此行吗？', function (index) {

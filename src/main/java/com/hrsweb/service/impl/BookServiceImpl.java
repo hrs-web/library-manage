@@ -55,11 +55,19 @@ public class BookServiceImpl implements BookService {
 
     }
 
+    /**
+     * 新增书籍
+     * @param book
+     */
     @Override
     public void insertBook(Book book) {
         this.bookMapper.insert(book);
     }
 
+    /**
+     * 删除书籍
+     * @param ids
+     */
     @Override
     public void deleteBooks(List<Long> ids) {
         ids.forEach(id->{
@@ -67,9 +75,23 @@ public class BookServiceImpl implements BookService {
         });
     }
 
+    // 查询书籍id，name
     @Override
     public List<Book> findByIdName() {
         Example example = Example.builder(Book.class).select("id","bookId").build();
         return this.bookMapper.selectByExample(example);
+    }
+
+    // 根据id查询书籍
+    @Override
+    public Book queryById(Long id) {
+        Book book = this.bookMapper.queryById(id);
+        return book;
+    }
+
+    // 修改书籍
+    @Override
+    public void alterBook(Book book) {
+        this.bookMapper.updateByPrimaryKey(book);
     }
 }

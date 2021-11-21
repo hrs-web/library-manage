@@ -20,33 +20,34 @@
     <div class="layui-form-item">
         <label class="layui-form-label required">书籍编号</label>
         <div class="layui-input-block">
-            <input id="studentId" type="text" name="bookId" lay-verify="required" lay-reqtext="书籍编号不能为空" placeholder="请输入学号" value="" class="layui-input">
+            <input id="bookId" type="text" name="bookId" lay-verify="required" lay-reqtext="书籍编号不能为空" placeholder="请输入学号" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">书籍名称</label>
         <div class="layui-input-block">
-            <input id="name" type="text" name="bookName" lay-verify="required" lay-reqtext="书籍名称不能为空" placeholder="请输入姓名" value="" class="layui-input">
+            <input id="bookName" type="text" name="bookName" lay-verify="required" lay-reqtext="书籍名称不能为空" placeholder="请输入姓名" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label required">作者</label>
         <div class="layui-input-block">
-            <input type="text" name="author" lay-verify="required" lay-reqtext="作者不能为空" placeholder="请输入作者" value="" class="layui-input">
+            <input type="text" id="author" name="author" lay-verify="required" lay-reqtext="作者不能为空" placeholder="请输入作者" value="" class="layui-input">
         </div>
     </div>
     <div class="layui-form-item">
         <label class="layui-form-label">分类名称</label>
         <div class="layui-input-block">
-            <select name="sortId" lay-verify="required" lay-search="" >
+            <select id="sortId" name="sortId" lay-verify="required" lay-search="" >
 
             </select>
         </div>
     </div>
-    <div class="layui-form-item">
+
+    <div class="layui-form-item layui-form-text">
         <label class="layui-form-label">描述</label>
         <div class="layui-input-block">
-            <input id="phone" type="phone" name="descrip" placeholder="请描述" value="" class="layui-input">
+            <textarea placeholder="请输入内容" class="layui-textarea" id="descrip" name="descrip"></textarea>
         </div>
     </div>
 
@@ -74,28 +75,48 @@
             layer = layui.layer,
             $ = layui.$;
 
-        $('#id').val(id);  // 设置id值
-        // 异步请求获取学生实体
+        // 设置id值
+        $('#id').val(id);
+
+        // 异步更新分类下拉框
         $.ajax({
-            url: ""+id,
+            url: "/classify/findSort",
             contentType: "application/json; charset=utf-8",
-            type: "get",
+            type: 'get',
             dataType: 'json',
             //data: params,
-            success: function (data) {
-                $('#studentId').val(data.studentId);
-                $('#name').val(data.name);
-                if (data.gender=="女") {
-                    $("input[type='radio'][value='女']").attr("checked",true);
+            success: function (obj) {
+                var lis = '<option value="">直接选择或搜索选择</option>';
+                for (var i = 0;i < obj.data.length;i++){
+                    lis += '<option value="'+obj.data[i].id+'">'+obj.data[i].sortName+'</option>';
                 }
-                $('#grade').val(data.grade);
-                $('#phone').val(data.phone);
-                $('#id').val(data.id);
+                $("#sortId").html(lis);
                 form.render();
+                // 异步请求获取书籍实体类
+                $.ajax({
+                    url: "/book/"+id,
+                    contentType: "application/json; charset=utf-8",
+                    type: "get",
+                    dataType: 'json',
+                    //data: params,
+                    success: function (data) {
+                        $('#bookId').val(data.bookId);
+                        $('#bookName').val(data.bookName);
+                        $('#author').val(data.author);
+                        //$('#sortId').find("option[value='"+data.sortId+"']").attr("selected",true);
+                        $('#sortId').val(data.sortId);
+                        $('#descrip').val(data.descrip);
+                        form.render();
+                    },
+                    error: function (or) {
+                        // 关闭弹出层
+                        alert('服务器异常')
+                    }
+                });
             },
             error: function (or) {
                 // 关闭弹出层
-                //alert('服务器异常')
+                alert('服务器异常')
             }
         });
 
@@ -103,7 +124,7 @@
         form.on('submit(saveBtn)', function (data) {
             var params = JSON.stringify(data.field);
             $.ajax({
-                url:"",
+                url:"/book/updateBook",
                 contentType: "application/json; charset=utf-8",
                 type:"post",
                 dataType:'json',
@@ -113,7 +134,7 @@
                     window.parent.location.reload();
                     var iframeIndex = parent.layer.getFrameIndex(window.name);
                     parent.layer.close(iframeIndex);
-                    layer.msg("修改成功");
+                    layer.msg(data);
                 },
                 error:function(or){
                     // 关闭弹出层

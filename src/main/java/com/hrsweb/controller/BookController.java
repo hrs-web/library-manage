@@ -3,7 +3,10 @@ package com.hrsweb.controller;
 import com.hrsweb.pojo.Book;
 import com.hrsweb.pojo.PageResult;
 import com.hrsweb.service.BookService;
+import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
@@ -72,4 +75,30 @@ public class BookController {
         return map;
     }
 
+    /**
+     * 根据id查询书籍详情
+     * @param id
+     * @return
+     */
+    @GetMapping("{id}")
+    public ResponseEntity<Book> queryById(@PathVariable("id")Long id){
+        Book book = this.bookService.queryById(id);
+        if (book.getId()==null){
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
+        }
+        return ResponseEntity.ok(book);
+    }
+
+    /**
+     * 修改书籍信息
+     * @param book
+     * @return
+     */
+    @PostMapping("updateBook")
+    public Map<String,String> updateBook(@RequestBody Book book){
+        this.bookService.alterBook(book);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("data","修改成功");
+        return map;
+    }
 }
