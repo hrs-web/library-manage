@@ -28,9 +28,16 @@ public class BookSortServiceImpl implements BookSortService {
         bookSortMapper.deleteByPrimaryKey(id);
     }
 
+    // 查询分类名称
     @Override
     public List<BookSort> queryBySortName() {
         Example example = Example.builder(BookSort.class).select("id","sortName").build();
         return this.bookSortMapper.selectByExample(example);
+    }
+
+    // 添加分类
+    @Override
+    public void addSort(BookSort sort) {
+        this.bookSortMapper.addSort(sort.getPid(),sort.getSortName(),sort.getDescription());
     }
 }

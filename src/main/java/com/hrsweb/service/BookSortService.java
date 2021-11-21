@@ -10,4 +10,6 @@ public interface BookSortService {
     void deleteById(Long id);
 
     List<BookSort> queryBySortName();
+
+    void addSort(BookSort sort);
 }

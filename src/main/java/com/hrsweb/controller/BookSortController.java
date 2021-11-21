@@ -4,10 +4,7 @@ import com.hrsweb.pojo.BookSort;
 import com.hrsweb.pojo.PageResult;
 import com.hrsweb.service.BookSortService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.HashMap;
 import java.util.List;
@@ -31,6 +28,11 @@ public class BookSortController {
         return map;
     }
 
+    /**
+     * 删除目录节点
+     * @param id
+     * @return
+     */
     @GetMapping("delete")
     public PageResult deleteById(@RequestParam(value = "id") Long id){
         sortService.deleteById(id);
@@ -46,6 +48,19 @@ public class BookSortController {
         List<BookSort> sorts = this.sortService.queryBySortName();
         HashMap<String, List<BookSort>> map = new HashMap<>();
         map.put("data",sorts);
+        return map;
+    }
+
+    /**
+     * 添加分类
+     * @param sort
+     * @return
+     */
+    @PostMapping("addSort")
+    public Map<String,String> addSort(@RequestBody BookSort sort){
+        this.sortService.addSort(sort);
+        HashMap<String,String> map = new HashMap<>();
+        map.put("msg","添加成功");
         return map;
     }
 }
