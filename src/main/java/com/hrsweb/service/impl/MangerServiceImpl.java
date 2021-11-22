@@ -24,4 +24,14 @@ public class MangerServiceImpl implements MangerService {
     public Manger login(String username, String password) {
         return this.mangerMapper.login(username,password);
     }
+
+    @Override
+    public Manger queryByManger(String username, String oldPassword) {
+        return this.mangerMapper.queryByManger(username,oldPassword);
+    }
+
+    @Override
+    public void password(Long id, String newPassword) {
+        this.mangerMapper.password(id,newPassword);
+    }
 }

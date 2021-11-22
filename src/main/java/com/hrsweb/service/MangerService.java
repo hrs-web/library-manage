@@ -8,4 +8,8 @@ public interface MangerService {
     List<Manger> findByIdName();
 
     Manger login(String username, String password);
+
+    Manger queryByManger(String username, String oldPassword);
+
+    void password(Long id, String newPassword);
 }

@@ -34,7 +34,7 @@
         .login-main .login-bottom {width:428px;background:#fff;border-radius:0 0 12px 12px;padding-bottom:53px;}
         .login-main .login-bottom .center {width:288px;margin:0 auto;padding-top:40px;padding-bottom:15px;position:relative;}
         .login-main .login-bottom .tip {clear:both;height:16px;line-height:16px;width:288px;margin:0 auto;}
-        body {background:url(../images/loginbg.png) 0% 0% / cover no-repeat;position:static;font-size:12px;}
+        body {background:url(../images/bg.png) 0% 0% / cover no-repeat;position:static;font-size:12px;}
         input::-webkit-input-placeholder {color:#a6aebf;}
         input::-moz-placeholder {/* Mozilla Firefox 19+ */            color:#a6aebf;}
         input:-moz-placeholder {/* Mozilla Firefox 4 to 18 */            color:#a6aebf;}
@@ -92,7 +92,6 @@
             <div class="tip">
                 <span class="icon-nocheck"></span>
                 <span class="login-tip">保持登录</span>
-                <a href="javascript:" class="forget-password">忘记密码？</a>
             </div>
             <div class="layui-form-item" style="text-align:center; width:100%;height:100%;margin:0px;">
                 <button class="login-btn" lay-submit="" lay-filter="login">立即登录</button>
@@ -166,6 +165,7 @@
                     }
                 },
                 error:function(or){
+                    layer.msg("服务器异常")
                     location.reload();
                 }
             });

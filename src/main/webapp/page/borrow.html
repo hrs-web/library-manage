@@ -76,7 +76,7 @@
 
 
                             <div>
-                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 35px;">
+                                <form class="layui-form" style="margin: 0 auto;max-width: 460px;padding-top: 20px;">
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">学生学号:</label>
                                         <div class="layui-input-block">
@@ -86,7 +86,7 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">学生姓名:</label>
                                         <div class="layui-input-block">
-                                            <div class="layui-form-mid layui-word-aux" id="studentName" name="studentName"></div>
+                                            <span style="font-size: 18px;color: #333;"id="studentName" name="studentName" ></span>
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
@@ -98,21 +98,21 @@
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">书籍名称:</label>
                                         <div class="layui-input-block">
-                                            <div class="layui-form-mid layui-word-aux" id="bookName" name="bookName"></div>
+                                            <span style="font-size: 18px;color: #333;"id="bookName" name="bookName" ></span>
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">借书时间:</label>
                                         <div class="layui-input-block">
                                             <div class="layui-form-mid layui-word-aux">
-                                                <span style="font-size: 18px;color: #333;"id="borrowDate" name="borrowDate" ></span>
+                                                <div class="layui-form-mid layui-word-aux" id="borrowDate" name="borrowDate"></div>
                                             </div>
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
                                         <label class="layui-form-label">限制时间:</label>
                                         <div class="layui-input-block">
-                                            <div class="layui-form-mid layui-word-aux" id="endDate" name="endDate"></div>
+                                            <span style="font-size: 18px;color: #333;"id="endDate" name="endDate" ></span>
                                         </div>
                                     </div>
                                     <div class="layui-form-item">
@@ -241,14 +241,14 @@
             elem: '#borrowDate1'
             ,done:function (value) {
                 borrowDate=value;
-                $("span#borrowDate").html(value);
+                $("div#borrowDate").html(value);
             }
         });
         laydate.render({
             elem: '#endDate1'
             ,done:function (value) {
                 endDate=value;
-                $("div#endDate").html(value);
+                $("span#endDate").html(value);
             }
         });
 
