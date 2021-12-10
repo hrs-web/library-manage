@@ -3,6 +3,7 @@ package com.hrsweb.service.impl;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import com.hrsweb.mapper.StudentMapper;
+import com.hrsweb.pojo.BorrowBooks;
 import com.hrsweb.pojo.PageResult;
 import com.hrsweb.pojo.Student;
 import com.hrsweb.service.StudentService;
@@ -11,7 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import tk.mybatis.mapper.entity.Example;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class StudentServiceImpl implements StudentService {
@@ -70,10 +73,20 @@ public class StudentServiceImpl implements StudentService {
 
     // 删除
     @Override
-    public void deleteByIds(List<Long> ids) {
+    public Map<String, String> deleteByIds(List<Long> ids) {
+        Map<String, String> map = new HashMap<>();
+        StringBuilder builder = new StringBuilder();
         ids.forEach(id->{
-            this.studentMapper.deleteByPrimaryKey(id);
+            List<BorrowBooks> borrowBooks = this.studentMapper.findBorrowBooksBySid(id);
+            // 判断该学生是否有借阅书籍未还
+            if (borrowBooks==null || borrowBooks.size()==0){
+                this.studentMapper.deleteByPrimaryKey(id);
+            }else {
+                builder.append(id+" ");
+            }
         });
+        map.put("msg",builder.toString());
+        return map;
     }
 
     @Override

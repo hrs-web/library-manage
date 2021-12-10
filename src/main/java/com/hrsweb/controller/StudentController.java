@@ -89,9 +89,9 @@ public class StudentController {
      * @return
      */
     @GetMapping("deleteIds")
-    public PageResult deleteByIds(@RequestParam(value = "ids") List<Long> ids){
-        this.studentService.deleteByIds(ids);
-        return new PageResult();
+    public Map<String,String> deleteByIds(@RequestParam(value = "ids") List<Long> ids){
+        Map<String, String> map = this.studentService.deleteByIds(ids);
+        return map;
     }
 
     /**

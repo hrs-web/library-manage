@@ -223,9 +223,17 @@
                 dataType:'json',
                 data:"ids="+obj,
                 success:function(data){
-                    //刷新当前页面
-                    window.location.reload();
-                    layer.msg("删除成功");
+                    if (data.msg === null || data.msg===""){
+                        layer.msg('删除成功', function(){
+                            //刷新当前页面
+                            window.location.reload();
+                        });
+                    } else{
+                        layer.msg("ID为【"+data.msg+"】的学生有书籍未还，不能执行删除操作。",function () {
+                            //刷新当前页面
+                            window.location.reload();
+                        });
+                    }
                 },
                 error:function(or){
                     // 关闭弹出层
